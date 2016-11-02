@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <title>GS Customer Editor</title>
+	<!-- The secrets file holds the CLIENT_ID and SPREADSHEET_ID variables -->
+    <script src="secrets.js"></script>
+    <script src="apiStuff.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+    </script>
+
+    <link href="style.css" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <h2>GS Customer Editor</h2>
+    </header>
+    <section>
+      <div id="authorize-div" style="display: none">
+        <span>Authorize access to Google Sheets API</span>
+        <!--Button for the user to click to initiate auth sequence -->
+        <button id="authorize-button" onclick="handleAuthClick(event)">
+          Authorize
+        </button>
+      </div>
+      <pre id="output"></pre>
+      <pre id="visualFeedback"></pre>
+      <button id="" onclick="createClientButton()">Add Row</button>
+      <table id="clientsTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="clientsRows">
+        </tbody>
+      </table>
+      <!-- The modal -->
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">x</span>
+          <div>
+            <input id="modalRowNumber" type="hidden"/>
+            <div>Name:<input id="modalClientName" type="textbox"/></div>
+            <div>Address:<input id="modalClientAddress" type="textbox"/></div>
+            <div>Mobile:<input id="modalClientMobile" type="textbox"/></div>
+            <div>Email:<input id="modalClientEmail" type="textbox"/></div>
+            <div>
+              <button id="modalUpdateBtn" onclick="updateClientRow()">Update</button>
+              <button id="modalCreateBtn" onclick="createClientRow()">Create</button>
+              <button>Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </body>
+</html>
