@@ -67,6 +67,7 @@ function loadSheetsApi() {
  *
 */
 function getSheet() {
+	setMessage("Loading data, please wait");
   gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
       range: 'Sheet1!A2:D',
@@ -86,6 +87,7 @@ function getSheet() {
       } else {
         appendPre('No data found.');
       }
+			setMessage(" ");
   }, function(response) {
     appendPre('Error: ' + response.result.error.message);
   });
@@ -220,7 +222,7 @@ function populateModalFields(clientInformation, clientNumber) {
  *
 */
 function createClientRow() {
-  //debuggingText("Creating a row");
+	setModalMessage("Creating new client row.");
   gapi.client.sheets.spreadsheets.values.append({
     spreadsheetId: SPREADSHEET_ID,
     range: "Sheet1",
@@ -251,6 +253,7 @@ function createClientRow() {
  *
 */
 function updateClientRow() {
+	setModalMessage("Updating client row.");
   //debuggingText("Updating a row");
   var rowNumber = parseInt(document.getElementById("modalRowNumber").value, 10) + 2;
   var therange = 'Sheet1!A' + rowNumber + ':D' + rowNumber;
@@ -354,17 +357,27 @@ function visualFeedback(message, status) {
 }
 
 /*
- * Function: appendPre
- * Append a pre element to the body containing the given message
- * as its text node.
+ * Function: setMessage
+ * Set the message to be displayed to the user
  *
  * Params:
- * message - Text to be placed in pre element.
+ * message - message to be displayed.
  */
-function appendPre(message) {
-  var pre = document.getElementById('output');
-  var textContent = document.createTextNode(message + '\n');
-  pre.appendChild(textContent);
+function setMessage(message) {
+  var span = document.getElementById('statusMessages');
+  span.innerText = message;
+}
+
+/*
+ * Function: setModalMessage
+ * Set the message to be displayed to the user in the modal
+ *
+ * Params:
+ * message - message to be displayed.
+ */
+function setModalMessage(message) {
+  var span = document.getElementById('modalStatusMessages');
+  span.innerText = message;
 }
 
 /*
@@ -387,6 +400,7 @@ function debuggingText(output) {
  *
 */
 function openModal() {
+	setModalMessage("");
   if (modalAction === 'create') {
     document.getElementById("modalUpdateBtn").style.display = "none";
     document.getElementById("modalCreateBtn").style.display = "inline";
